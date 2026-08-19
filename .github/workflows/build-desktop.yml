@@ -141,7 +141,7 @@ jobs:
         run: test -s source/apps/desktop/src/gateway.mjs && test -s source/apps/desktop/src/mcp-server.mjs
       - name: Build unsigned macOS artifact
         if: ${{ !startsWith(github.ref, 'refs/tags/') }}
-        run: pnpm --dir source --filter @daimon-os/desktop exec electron-builder --mac --universal --config.directories.output=../../../app/Mac
+        run: pnpm --dir source --filter @daimon-os/desktop exec electron-builder --mac --universal --config.directories.output=../../../app/Mac --publish never
         env:
           CSC_IDENTITY_AUTO_DISCOVERY: "false"
       - name: Require macOS signing inputs
@@ -158,7 +158,7 @@ jobs:
           done
       - name: Build signed and notarized macOS artifact
         if: ${{ startsWith(github.ref, 'refs/tags/') }}
-        run: pnpm --dir source --filter @daimon-os/desktop exec electron-builder --mac --universal --config.directories.output=../../../app/Mac
+        run: pnpm --dir source --filter @daimon-os/desktop exec electron-builder --mac --universal --config.directories.output=../../../app/Mac --publish never
         env:
           CSC_LINK: ${{ secrets.CSC_LINK }}
           CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
@@ -210,7 +210,7 @@ jobs:
           if (!(Test-Path source/apps/desktop/src/gateway.mjs) -or !(Test-Path source/apps/desktop/src/mcp-server.mjs)) { throw 'Missing runtime bundle' }
       - name: Build unsigned Windows artifact
         if: ${{ !startsWith(github.ref, 'refs/tags/') }}
-        run: pnpm --dir source --filter @daimon-os/desktop exec electron-builder --win --x64 --config.directories.output=../../../app/Windows
+        run: pnpm --dir source --filter @daimon-os/desktop exec electron-builder --win --x64 --config.directories.output=../../../app/Windows --publish never
         env:
           CSC_IDENTITY_AUTO_DISCOVERY: "false"
       - name: Require Windows signing inputs
@@ -224,7 +224,7 @@ jobs:
           if ([string]::IsNullOrWhiteSpace($env:CSC_KEY_PASSWORD)) { throw 'Missing WIN_CSC_KEY_PASSWORD' }
       - name: Build signed Windows artifact
         if: ${{ startsWith(github.ref, 'refs/tags/') }}
-        run: pnpm --dir source --filter @daimon-os/desktop exec electron-builder --win --x64 --config.directories.output=../../../app/Windows
+        run: pnpm --dir source --filter @daimon-os/desktop exec electron-builder --win --x64 --config.directories.output=../../../app/Windows --publish never
         env:
           CSC_LINK: ${{ secrets.WIN_CSC_LINK }}
           CSC_KEY_PASSWORD: ${{ secrets.WIN_CSC_KEY_PASSWORD }}
@@ -270,7 +270,7 @@ jobs:
           name: desktop-runtime
           path: source/apps/desktop/src
       - run: test -s source/apps/desktop/src/gateway.mjs && test -s source/apps/desktop/src/mcp-server.mjs
-      - run: pnpm --dir source --filter @daimon-os/desktop exec electron-builder --linux --x64 --config.directories.output=../../../app/Linux
+      - run: pnpm --dir source --filter @daimon-os/desktop exec electron-builder --linux --x64 --config.directories.output=../../../app/Linux --publish never
       - name: Require Linux signing inputs
         if: ${{ startsWith(github.ref, 'refs/tags/') }}
         shell: bash

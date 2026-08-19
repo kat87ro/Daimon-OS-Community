@@ -20,7 +20,9 @@
 
 <p align="center">
   <a href="#download">Download</a> ·
+  <a href="#watch-the-product-walkthrough">Video</a> ·
   <a href="#visual-product-tour">Product tour</a> ·
+  <a href="#capabilities">Capabilities</a> ·
   <a href="#how-it-works">How it works</a> ·
   <a href="source/docs/END_TO_END_GUIDE.md">End-to-end guide</a> ·
   <a href="#build-from-source">Build</a>
@@ -85,6 +87,19 @@ There is no Daimon account, subscription, hosted workspace, payment gate, manage
 
 Validate the downloaded bytes against [SHA256SUMS](app/SHA256SUMS). Signing status and native-platform evidence are documented in [app/README.md](app/README.md).
 
+## Watch the product walkthrough
+
+<p align="center">
+  <a href="source/docs/media/daimon-os-product-walkthrough.mp4?raw=1">
+    <img src="source/docs/images/daimon-os-cover.png" alt="Watch the Daimon OS product walkthrough" width="100%">
+  </a>
+</p>
+
+<p align="center">
+  <a href="source/docs/media/daimon-os-product-walkthrough.mp4?raw=1"><strong>▶ Watch the 15-second product walkthrough</strong></a><br>
+  <sub>Full HD MP4 · no audio · orchestration, Master Chat, and evidence review</sub>
+</p>
+
 ## Visual product tour
 
 The images below are real screenshots from the clean Daimon OS 0.2.1 public build. No provider credentials or configured runtime data are included in the repository or installers.
@@ -144,17 +159,92 @@ Follow the complete workflow in the [screenshot-based end-to-end guide](source/d
 
 ## Capabilities
 
-| Area | What is implemented |
+### A control plane, not another agent wrapper
+
+This is the implemented local single-operator product boundary. The visual compares product categories rather than named products because individual tools and editions change quickly; “custom” means a capability can be engineered around that category, but is not its usual built-in control-plane contract.
+
+![Daimon OS capability map](source/docs/images/capability-map.png)
+
+The searchable map below enumerates the complete Daimon OS side of that comparison.
+
+<details open>
+<summary><strong>01 · Agent orchestration & provider runtime — 6 capabilities</strong></summary>
+
+Build teams, plan dependent work, deliberate, and run across the provider tools you already use.
+
+| Capability | Daimon OS |
 | --- | --- |
-| **Providers** | Claude Code, Codex, and Gemini CLI launch paths; Ollama and LM Studio local-runtime paths |
-| **Agent operating model** | Reusable agent definitions, selectable Team Lead, member delegation, and supervised permissions |
-| **Work planning** | Root and feature projects, goals, manual tasks, Lead-created tasks, dependencies, and blueprints |
-| **Parallel isolation** | Separate Git worktrees for scheduler-dispatched write-capable workers |
-| **Human control** | Master Chat attention inbox, input requests, policy blocks, failures, and review decisions |
-| **Process supervision** | Live PTY output with pause, resume, retry, and termination controls |
-| **Capability scoping** | Project-and-agent secret grants, skills, MCP servers, memory, budgets, and runtime limits |
-| **Delivery review** | Captured Git evidence, content-addressed diff hash, exact approval, and fail-closed local promotion |
-| **Evidence** | Hash-linked scheduler ledger plus a separate redacted five-day operator audit view |
+| Provider-native CLI and local-runtime execution | Built in |
+| Selectable Lead plus specialist team hierarchy | Built in |
+| Dependency-aware parallel task graph | Built in |
+| Panel-and-judge pre-run deliberation | Fusion built in |
+| Feature workstreams sharing one approved Git root | Built in |
+| Unscoped provider-native Master Chat | Built in |
+
+</details>
+
+<details>
+<summary><strong>02 · Git delivery & effect safety — 5 capabilities</strong></summary>
+
+Isolate changes, bind approval to exact evidence, and recover safely when an effect is ambiguous.
+
+| Capability | Daimon OS |
+| --- | --- |
+| Per-run isolated Git worktrees | Built in |
+| Captured diff and exact-hash human approval | Built in |
+| Idempotent promotion intent and effect receipt | Daimon-owned effects |
+| Ambiguous-effect reconciliation after restart | Built in |
+| Durable local run, artifact, and attention ledger | Hash-linked |
+
+</details>
+
+<details>
+<summary><strong>03 · Human control & runtime operations — 6 capabilities</strong></summary>
+
+Keep operators in the loop while supervising live work, retries, schedules, and persisted state.
+
+| Capability | Daimon OS |
+| --- | --- |
+| Explicit operator-input inbox | Built in |
+| End-to-end local approval routing | Desktop route plus idempotent decisions |
+| Reported vs observed liveness with expiring leases | Built in |
+| Kill, pause, resume, retry, timeout, and idle controls | Built in |
+| Fair scheduler lanes, priorities, and durable wake-ups | Built in |
+| Versioned persisted-state schemas and migrations | Built in |
+
+</details>
+
+<details>
+<summary><strong>04 · Security, coordination & governed memory — 6 capabilities</strong></summary>
+
+Scope authority and secrets, coordinate specialists, and make retained knowledge reviewable and reversible.
+
+| Capability | Daimon OS |
+| --- | --- |
+| Per-run capability grants with recursive revocation | Built in |
+| Scoped secret intersection and encrypted local vault | Built in |
+| Typed peer messages and versioned owned artifacts | Built in |
+| Governed memory provenance, sensitivity, expiry, supersession, and revocation | Built in |
+| Approval-gated memory writes | Built in |
+| Keyword-scoped memory injection with retrieval reason | Built in |
+
+</details>
+
+<details>
+<summary><strong>05 · Automation, audit & cost control — 3 capabilities</strong></summary>
+
+Trigger repeatable work, enforce configured spending boundaries, and retain a redacted local operating record.
+
+| Capability | Daimon OS |
+| --- | --- |
+| Blueprints, schedules, filesystem triggers, and draining | Built in |
+| Provider-aware cost telemetry and configured budget stops | Where metering is enforceable |
+| Redacted five-day local operational audit | Built in |
+
+</details>
+
+> [!NOTE]
+> Daimon OS guarantees recovery and effect safety only for actions it controls. Provider-internal tool calls remain under the provider runtime, capability grants are not an operating-system sandbox, and remote multi-user tenancy is not implemented.
 
 ## How it works
 
