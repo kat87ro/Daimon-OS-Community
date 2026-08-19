@@ -1,0 +1,119 @@
+appId: com.daimon-os.desktop
+productName: Daimon OS
+copyright: Copyright © 2026 Catalin Tudor
+
+directories:
+  output: dist
+  buildResources: build
+
+# What goes into the asar: only the three runtime JS files + node-pty native.
+# Everything else (fastify, ws, etc.) is bundled into gateway.mjs by esbuild.
+# gateway-bootstrap.mjs is dev-only; excluded from the packaged app.
+asar: true
+asarUnpack:
+  - "**/node_modules/node-pty/**"
+
+files:
+  - src/main.js
+  - src/preload.js
+  - src/menu.js
+  - src/gateway.mjs
+  - node_modules/node-pty/**
+  - "!node_modules/node-pty/build/**"
+  - "!node_modules/node-pty/deps/**"
+  - "!node_modules/node-pty/scripts/**"
+  - "!node_modules/node-pty/src/**"
+  - "!node_modules/node-pty/typings/**"
+  - "!node_modules/node-pty/node-addon-api@*/**"
+  - "!node_modules/node-pty/**/*.test.*"
+  - "!node_modules/node-pty/**/*.map"
+  - "!node_modules/node-pty/**/*.pdb"
+  - "!node_modules/node-pty/binding.gyp"
+  - "!node_modules/node-pty/README.md"
+  - package.json
+
+# Pre-built static Next export bundled as an extra resource (outside the asar
+# so the app:// handler can serve files directly with fs.promises.readFile).
+# mcp-server.mjs is also extraResources (not in the asar): the spawned `claude`
+# CLI launches it as a child `node` process, which cannot read files inside the
+# asar archive. main.js points DAIMON_MCP_ENTRY at process.resourcesPath/mcp-server.mjs.
+extraResources:
+  - from: "../../apps/web/out"
+    to: web-out
+    filter:
+      - "**/*"
+  - from: "src/mcp-server.mjs"
+    to: mcp-server.mjs
+
+# electron-builder rebuilds native modules (node-pty) for the target
+# Electron ABI as part of the packaging step — no manual electron-rebuild needed.
+npmRebuild: true
+nodeGypRebuild: false
+beforeBuild: scripts/stage-linux-native.mjs
+
+# ── macOS ──────────────────────────────────────────────────────────────────────
+mac:
+  category: public.app-category.developer-tools
+  # node-pty ships both Darwin architecture prebuild directories in each app.
+  # They are byte-identical across the temporary x64/arm64 packages and must be
+  # copied as-is instead of passed through lipo a second time during the merge.
+  x64ArchFiles: "**/node-pty/prebuilds/darwin-*/**"
+  # Place icon.icns in apps/desktop/build/ before running dist:mac.
+  icon: build/icon.icns
+  # Hardened runtime is required for notarization.
+  hardenedRuntime: true
+  gatekeeperAssess: false
+  entitlements: entitlements.mac.plist
+  entitlementsInherit: entitlements.mac.inherit.plist
+  target:
+    - target: dmg
+      arch:
+        - universal
+
+dmg:
+  # The DMG wrapper itself is unsigned; Gatekeeper cares about the .app inside.
+  sign: false
+
+# ── Windows ────────────────────────────────────────────────────────────────────
+win:
+  # Place icon.ico in apps/desktop/build/ before running dist:win.
+  icon: build/icon.ico
+  # Authenticode signing: set CSC_LINK (path to .pfx) and CSC_KEY_PASSWORD in CI.
+  target:
+    - target: nsis
+      arch:
+        - x64
+
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+
+# ── Linux ──────────────────────────────────────────────────────────────────────
+linux:
+  # Place a 512×512 PNG set in apps/desktop/build/icons/ before running dist:linux.
+  icon: build/icons
+  category: Development
+  executableName: daimon-os
+  syncDesktopName: true
+  target:
+    - target: AppImage
+      arch:
+        - x64
+
+# Called after code-signing on macOS; submits to Apple's notarization service.
+# Skips when credentials are absent for local builds, but protected release CI
+# sets DAIMON_REQUIRE_SIGNING=1 so missing notarization inputs are fatal.
+afterSign: scripts/notarize.js
+
+# ── Publish (GitHub Releases) ──────────────────────────────────────────────────
+# electron-builder uploads the built artifacts to a GitHub release when the
+# GH_TOKEN env var is set and the build runs with --publish always|on-tag.
+# The generated latest*.yml / latest*.json manifests here are what
+# electron-updater reads for auto-update (upgrade path from the current
+# lightweight version check in main.js).
+publish:
+  - provider: github
+    owner: kat87ro
+    repo: Daimon-OS
+    releaseType: release

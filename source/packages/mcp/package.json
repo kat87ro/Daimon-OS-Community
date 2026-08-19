@@ -1,0 +1,22 @@
+{
+  "name": "@daimon-os/mcp",
+  "version": "0.2.1",
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "daimon-mcp": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@daimon-os/shared": "workspace:*",
+    "@modelcontextprotocol/sdk": "^1.30.0",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.1",
+    "typescript": "^5.9.3"
+  }
+}

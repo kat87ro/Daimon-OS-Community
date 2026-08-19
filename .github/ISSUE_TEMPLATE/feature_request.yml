@@ -1,0 +1,41 @@
+name: Feature request
+description: Propose a focused capability or architectural improvement
+title: "[Feature]: "
+labels:
+  - enhancement
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What operator or contributor problem needs to be solved?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed outcome
+      description: Describe the behavior and acceptance criteria, not only the UI.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: What simpler or safer options did you evaluate?
+  - type: textarea
+    id: boundaries
+    attributes:
+      label: Boundary and failure-mode impact
+      description: Cover local-first behavior, permissions, provider differences, persistence, retries, recovery, and human approval where relevant.
+    validations:
+      required: true
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Scope check
+      options:
+        - label: I am not presenting future or proposed behavior as already implemented.
+          required: true
+        - label: I have not included secrets, customer data, or private repository content.
+          required: true

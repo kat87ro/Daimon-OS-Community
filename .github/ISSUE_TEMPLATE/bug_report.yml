@@ -1,0 +1,65 @@
+name: Bug report
+description: Report a reproducible Daimon OS defect
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a bug. Remove secrets, personal paths, repository content, and provider transcripts before submitting. Security vulnerabilities must be reported through the private process in `SECURITY.md`.
+  - type: input
+    id: version
+    attributes:
+      label: Version or commit
+      description: Exact release version or commit SHA used.
+      placeholder: v0.x.y or commit SHA
+    validations:
+      required: true
+  - type: dropdown
+    id: operating-system
+    attributes:
+      label: Operating system
+      options:
+        - macOS Apple Silicon
+        - macOS Intel
+        - Windows x64
+        - Linux x64
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: provider
+    attributes:
+      label: Provider runtime
+      description: Provider CLI/local runtime and version, if relevant.
+      placeholder: Codex CLI x.y.z
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Describe the observed behavior and the expected behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction
+      description: Provide the smallest safe sequence that reproduces the problem.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Redacted evidence
+      description: Add relevant logs or screenshots after removing secrets and private content.
+      render: shell
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Safety checks
+      options:
+        - label: I removed secrets, personal paths, repository content, and provider transcripts.
+          required: true
+        - label: This is not a security vulnerability.
+          required: true

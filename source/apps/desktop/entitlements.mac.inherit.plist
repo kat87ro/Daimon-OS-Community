@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <!--
+    Inherited by child processes (utilityProcess, PTY children spawned by node-pty).
+    com.apple.security.inherit propagates the parent's sandbox to children.
+    disable-library-validation is repeated here so the utilityProcess can also
+    load node-pty (it runs in its own process with its own entitlement check).
+  -->
+  <key>com.apple.security.inherit</key>
+  <true/>
+  <key>com.apple.security.cs.disable-library-validation</key>
+  <true/>
+  <key>com.apple.security.cs.allow-jit</key>
+  <false/>
+  <key>com.apple.security.cs.allow-unsigned-executable-memory</key>
+  <false/>
+</dict>
+</plist>

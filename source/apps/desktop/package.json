@@ -1,0 +1,41 @@
+{
+  "name": "@daimon-os/desktop",
+  "version": "0.2.1",
+  "private": true,
+  "description": "Daimon-OS desktop shell (Electron) — embeds the Charon gateway + static dashboard.",
+  "desktopName": "Daimon OS",
+  "author": "Catalin Tudor",
+  "license": "MIT",
+  "main": "src/main.js",
+  "scripts": {
+    "build:web": "DAIMON_DESKTOP=1 pnpm --filter @daimon-os/web build",
+    "bundle:gateway": "esbuild ../server/src/desktop-entry.ts --bundle --platform=node --format=esm --outfile=src/gateway.mjs --external:node-pty --external:fsevents --banner:js=\"import { createRequire } from 'module'; const require = createRequire(import.meta.url);\" --log-level=info",
+    "bundle:mcp": "esbuild ../../packages/mcp/src/index.ts --bundle --platform=node --format=esm --outfile=src/mcp-server.mjs --banner:js=\"import { createRequire } from 'module'; const require = createRequire(import.meta.url);\" --log-level=info",
+    "bundle:all": "pnpm bundle:gateway && pnpm bundle:mcp",
+    "pack": "pnpm build:web && pnpm bundle:all && electron-builder --dir",
+    "dist": "pnpm build:web && pnpm bundle:all && electron-builder",
+    "dist:mac": "pnpm build:web && pnpm bundle:all && electron-builder --mac --arm64 --config.directories.output=../../../app/Mac",
+    "dist:mac-x64": "pnpm build:web && pnpm bundle:all && electron-builder --mac --x64 --config.directories.output=../../../app/Mac",
+    "dist:mac-universal": "pnpm build:web && pnpm bundle:all && electron-builder --mac --universal --config.directories.output=../../../app/Mac",
+    "dist:win": "pnpm build:web && pnpm bundle:all && electron-builder --win --x64 --config.directories.output=../../../app/Windows",
+    "dist:linux": "pnpm build:web && pnpm bundle:all && electron-builder --linux --x64 --config.directories.output=../../../app/Linux",
+    "rebuild:native": "electron-rebuild -f -w node-pty --module-dir ../server",
+    "start": "electron .",
+    "spike": "pnpm build:web && pnpm rebuild:native && pnpm start",
+    "gen-icons": "node scripts/gen-icons.mjs",
+    "typecheck": "echo 'desktop main is plain JS (no typecheck yet)'"
+  },
+  "dependencies": {
+    "node-pty": "^1.1.0"
+  },
+  "devDependencies": {
+    "@daimon-os/server": "workspace:*",
+    "@electron/notarize": "^3.1.1",
+    "@electron/rebuild": "^4.2.0",
+    "electron": "^43.4.0",
+    "electron-builder": "^26.15.3",
+    "electron-builder-squirrel-windows": "^26.15.3",
+    "esbuild": "^0.28.2",
+    "tsx": "^4.23.12"
+  }
+}

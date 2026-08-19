@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <!--
+    disable-library-validation: required to load node-pty's .node native addon
+    which is signed with our Developer ID but not Apple's own identity.
+    JIT / unsigned-executable-memory: NOT needed — tsx is not used at runtime
+    in the packaged app (gateway is pre-bundled by esbuild).
+  -->
+  <key>com.apple.security.cs.disable-library-validation</key>
+  <true/>
+  <key>com.apple.security.cs.allow-jit</key>
+  <false/>
+  <key>com.apple.security.cs.allow-unsigned-executable-memory</key>
+  <false/>
+</dict>
+</plist>

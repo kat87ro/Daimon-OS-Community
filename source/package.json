@@ -1,0 +1,19 @@
+{
+  "name": "daimon-os",
+  "version": "0.2.1",
+  "private": true,
+  "description": "Daimon-OS — multi-agent terminal orchestration dashboard. One socket, many daimons.",
+  "license": "MIT",
+  "packageManager": "pnpm@9.15.9",
+  "engines": {
+    "node": ">=22.12"
+  },
+  "scripts": {
+    "postinstall": "chmod +x node_modules/.pnpm/node-pty@*/node_modules/node-pty/prebuilds/darwin-*/spawn-helper 2>/dev/null || true",
+    "dev": "node scripts/dev.mjs",
+    "dev:server": "pnpm --filter @daimon-os/server dev",
+    "dev:web": "pnpm --filter @daimon-os/web dev",
+    "build": "pnpm -r build",
+    "typecheck": "pnpm -r typecheck"
+  }
+}
