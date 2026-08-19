@@ -29,7 +29,7 @@
 ![Daimon OS orchestration](source/docs/images/daimon-os-cover.png)
 
 > [!IMPORTANT]
-> **Pre-release community build.** Daimon OS is free and open source under the [MIT License](LICENSE). The included installers are unsigned evaluation builds. Read the [artifact validation and platform caveats](app/README.md) before installing.
+> **Public build.** Daimon OS is free and open source under the [MIT License](LICENSE). Downloadable installers for macOS, Windows, and Linux are provided in this repository. They are currently unsigned; read the [artifact validation and platform caveats](app/README.md) before installing.
 
 ## Run a team, not a pile of terminals
 
@@ -87,7 +87,7 @@ Validate the downloaded bytes against [SHA256SUMS](app/SHA256SUMS). Signing stat
 
 ## Visual product tour
 
-The images below are real screenshots from the clean Daimon OS 0.2.1 community build. No provider credentials or configured runtime data are included in the repository or installers.
+The images below are real screenshots from the clean Daimon OS 0.2.1 public build. No provider credentials or configured runtime data are included in the repository or installers.
 
 <table>
   <tr>
